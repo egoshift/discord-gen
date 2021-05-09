@@ -36,13 +36,17 @@ const getNewTokenAuthUrl = (oAuth2Client, callback) => {
   });
 }
 
-const credentials = JSON.parse(readFile(process.env.CLIENT_SECRET))
-
-// const token = JSON.parse(readFile(process.env.TOKEN_PATH) || {})
-
 const oAuth2Client = () => {
-  const { client_id, client_secret, redirect_uris } = credentials.installed
-  const authClient = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
+  let authClient
+
+  if (process.env.NODE_ENV === 'production') {
+    authClient = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.REDIRECT_URI)
+  } else {
+    const credentials = JSON.parse(readFile(process.env.CLIENT_SECRET))
+    const { client_id, client_secret, redirect_uris } = credentials.installed
+
+    authClient = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
+  }
 
   if (!existsSync(process.env.TOKEN_PATH)) {
     getNewTokenAuthUrl(authClient, () => {

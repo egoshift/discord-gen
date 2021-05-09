@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "node .",
-    "dev": "nodemon .",
+    "start": "NODE_ENV=production node .",
+    "dev": "NODE_ENV=development nodemon .",
     "lint": "eslint -c './.eslintrc.js' --fix './src/**/*.js'"
   },
   "repository": {

@@ -17,7 +17,6 @@ const fns = {
       const rows = response.data.values
       const resultList = []
   
-      console.log(rows.length)
       if (rows.length && rows.length > 0) {
         const table = new asciitable()
         let total = 0
