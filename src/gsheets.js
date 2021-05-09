@@ -22,6 +22,7 @@ const getNewTokenAuthUrl = (oAuth2Client, callback) => {
     input: process.stdin,
     output: process.stdout,
   });
+  console.log('');
   rl.question('Enter the code from that page here: ', (code) => {
     rl.close();
     oAuth2Client.getToken(code, (err, token) => {

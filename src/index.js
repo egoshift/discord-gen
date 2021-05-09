@@ -10,7 +10,7 @@ dotenv.config()
 discord.login()
 
 discord.client.on('ready', () => {
-  console.log('Bot is ready.')
+  // console.log('Bot is ready.')
 })
 
 discord.client.on('message', commandHandler)

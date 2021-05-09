@@ -40,5 +40,9 @@
       "eslint --fix --quiet",
       "git add -u"
     ]
+  },
+  "engines": {
+    "node": ">= 15.5.1",
+    "npm": ">= 7.7.5"
   }
 }
