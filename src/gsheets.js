@@ -22,7 +22,6 @@ const getNewTokenAuthUrl = (oAuth2Client, callback) => {
     input: process.stdin,
     output: process.stdout,
   });
-  console.log('');
   rl.question('Enter the code from that page here: ', (code) => {
     rl.close();
     oAuth2Client.getToken(code, (err, token) => {
@@ -38,24 +37,24 @@ const getNewTokenAuthUrl = (oAuth2Client, callback) => {
 }
 
 const oAuth2Client = () => {
-  let authClient
+  let authClient, clientEmail, privateKey
 
   if (process.env.NODE_ENV === 'production') {
-    authClient = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.REDIRECT_URI)
+    clientEmail = process.env.CLIENT_EMAIL
+    privateKey = process.env.PRIVATE_KEY.replace(/\\n/g, '\n')
   } else {
-    const credentials = JSON.parse(readFile(process.env.CLIENT_SECRET))
-    const { client_id, client_secret, redirect_uris } = credentials.installed
+    const serviceAccount = JSON.parse(readFile(process.env.PRIVATE_KEY))
 
-    authClient = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
+    clientEmail = serviceAccount.client_email
+    privateKey = serviceAccount.private_key
   }
 
-  if (!existsSync(process.env.TOKEN_PATH)) {
-    getNewTokenAuthUrl(authClient, () => {
-      authClient.setCredentials(JSON.parse(readFile(process.env.TOKEN_PATH)))
-    })
-  } else {
-    authClient.setCredentials(JSON.parse(readFile(process.env.TOKEN_PATH)))
-  }
+  authClient = new google.auth.JWT(
+    clientEmail,
+    null,
+    privateKey,
+    SCOPES
+  )
 
   return authClient
 }
