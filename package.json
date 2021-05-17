@@ -24,6 +24,7 @@
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.8.0",
     "googleapis": "^39.2.0",
     "luxon": "^1.26.0"
   },
@@ -40,5 +41,9 @@
       "eslint --fix --quiet",
       "git add -u"
     ]
+  },
+  "engines": {
+    "node": ">= 15.5.1",
+    "npm": ">= 7.7.5"
   }
 }
